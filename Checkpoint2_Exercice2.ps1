@@ -110,4 +110,4 @@ Log
 
 Read-Host "Appuyez sur Entrée pour terminer."
 Write-Host "--- Fin du script ---"
-Start-Sleep -Seconds 10
+# Start-Sleep -Seconds 10
