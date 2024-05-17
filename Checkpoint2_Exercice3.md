@@ -59,4 +59,41 @@ Oui c'est réussi, la ligne 5 indique `reply`. C'est un ping avec PC4 (`	00:50:7
 
 # Q.3.14
 
+Protocole ARP, associe l'adresse IPV4 à l'adresse MAC.
+
+# Q.3.15
+
+A est un switch et permet de connecter PC1 et PC4. B est un routeur et n'intervient pas.
+
+# Q.3.16
+
+C'est PC3, son IP est `10.10.80.3`.
+
+# Q.3.17
+
+Protocole ICMP, il est utilisé pour déterminer si les données atteignent ou non leur destination en temps voulu.
+
+# Q.3.18
+
+Non puisque ça met "no response found !", c'est dû au fait que PC3 et PC2 ne sont pas sur le même réseau.
+
+# Q.3.19
+
+L'adresse IP de destination `10.10.80.2 ` n'est pas disponible depuis la passerelle `10.10.255.254`.
+
+# Q.3.20
+
+Le switch A fait le lien entre le PC3 et le routeur. Le routeur B lui a reçu le paquet depuis PC3 pour PC2 et n'a pas pu le transmettre car PC3 n'est pas dans la table de routage.
+
+# Q.3.21
+
+- Source : PC4 (`10.10.4.2`).
+- Destination : `172.16.5.253`.
+
+# Q.3.22
+
+- Source : `CA:03:9E:EF:00:38`
+- Destination : `CA:01:DA:D2:00:1C`
+
+# Q.3.23
 
