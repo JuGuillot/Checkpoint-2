@@ -23,3 +23,91 @@
 
 # Le champs description n'était pas pris en compte car il faut le rajouter dans les $UserInfo, j'ai rajouté la ligne 42 "Description      = "$Description"
 
+# Q.2.9
+
+# On peut copier la fonction et la coller dans le script directement.
+
+# Q.2.16
+
+# Ca sert pour enlever les caractères spéciaux ainsi que les majuscules, utile pour Styrbjörn.
+
+Write-Host "--- Début du script ---"
+
+function Log
+{
+    param([string]$FilePath,[string]$Content)
+    $Log= "C:\Scripts\Log.log"
+    # Vérifie si le fichier existe, sinon le crée
+    If (-not (Test-Path -Path $Log))
+    {
+        New-Item -ItemType File -Path $Log | Out-Null
+    }
+
+    # Construit la ligne de journal
+    $Date = Get-Date -Format "dd/MM/yyyy-HH:mm:ss"
+    $User = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+    $logLine = "$Date;$User;$Content"
+
+    # Ajoute la ligne de journal au fichier
+    Add-Content -Path $Log -Value $logLine
+}
+
+Function Random-Password ($length = 12)
+{
+    $punc = 46..46
+    $digits = 48..57
+    $letters = 65..90 + 97..122
+
+    $password = get-random -count $length -input ($punc + $digits + $letters) |`
+        ForEach -begin { $aa = $null } -process {$aa += [char]$_} -end {$aa}
+    Return $password.ToString()
+}
+
+Function ManageAccentsAndCapitalLetters
+{
+    param ([String]$String)
+    
+    $StringWithoutAccent = $String -replace '[éèêë]', 'e' -replace '[àâä]', 'a' -replace '[îï]', 'i' -replace '[ôö]', 'o' -replace '[ùûü]', 'u'
+    $StringWithoutAccentAndCapitalLetters = $StringWithoutAccent.ToLower()
+    $StringWithoutAccentAndCapitalLetters
+}
+
+$Path = "C:\Scripts"
+$CsvFile = "$Path\Users.csv"
+$LogFile = "$Path\Log.log"
+
+$Users = Import-Csv -Path $CsvFile -Delimiter ";" -Header "prenom","nom","societe","fonction","service","description" -Encoding UTF8  | Select-Object -Skip 1
+
+foreach ($User in $Users)
+{
+    $Prenom = ManageAccentsAndCapitalLetters -String $User.prenom
+    $Nom = ManageAccentsAndCapitalLetters -String $User.Nom
+    $Prenom.$Nom = "$Prenom.$Nom"
+    If (-not(Get-LocalUser -Name "$Prenom.$Nom" -ErrorAction SilentlyContinue))
+    {
+        $Pass = Random-Password
+        $Password = (ConvertTo-secureString $Pass -AsPlainText -Force)
+        $Description = "$($user.description) - $($User.fonction)"
+        $UserInfo = @{
+            Name                 = "$Prenom.$Nom"
+            FullName             = "$Prenom.$Nom"
+            Description          = "$Description"
+            Password             = $Password
+            AccountNeverExpires  = $true
+            PasswordNeverExpires = $true
+        }
+
+        New-LocalUser @UserInfo
+        Add-LocalGroupMember -Group "Utilisateurs" -Member "$Prenom.$Nom"
+        Write-Host "L'utilisateur $Prenom.$Nom a été crée avec le mot de passe $Pass" -ForegroundColor Green
+    }
+    else
+    {
+        write-host "Le compte $Prenom.$Nom existe déjà." -ForegroundColor Red
+    }
+Log
+}
+
+Read-Host "Appuyez sur Entrée pour terminer."
+Write-Host "--- Fin du script ---"
+Start-Sleep -Seconds 10
