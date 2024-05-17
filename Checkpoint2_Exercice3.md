@@ -42,4 +42,21 @@ Aucune incidence pour PC2 et PC3.
 
 # Q.3.10
 
+Il faudrait mettre un serveur DHCP par sous-réseau ou un DHCP global mais tout le monde sur le même réseau.
+
+# Q.3.11
+
+`00:20:79:66:68:00` et c'est PC1.
+
+# Q.3.12
+
+Oui c'est réussi, la ligne 5 indique `reply`. C'est un ping avec PC4 (`	00:50:79:66:68:03`).
+
+# Q.3.13
+
+- Request : PC1. Adresse IP : `10.10.4.1`. Adresse MAC : `00:50:79:66:68:00`.
+- Reply : PC4. Adresse IP : `10.10.4.2`. Adresse MAC : `00:50:79:66:68:03`.
+
+# Q.3.14
+
 
