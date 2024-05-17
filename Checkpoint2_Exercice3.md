@@ -97,3 +97,4 @@ Le switch A fait le lien entre le PC3 et le routeur. Le routeur B lui a reçu le
 
 # Q.3.23
 
+Ca a été enregistré entre les 2 routeurs.
